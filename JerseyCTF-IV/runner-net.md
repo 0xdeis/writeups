@@ -24,39 +24,39 @@ PING drtomlei.xyz (54.163.212.148) 56(84) bytes of data.
 ```
 
 Setting the filter `http && ip.addr == 54.163.212.148` gives us only 4 packets:
-![[runner-net-wireshark-4-packets.png]]
+![wireshark-4-packets](./runner-net-wireshark-4-packets.png)
 
 Just from the header we can see the url `/__/__tomsbackdoor` which looks interesting.
 
 Inspecting another packet closer, we see the [User Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) being set to `TOMS BARDIS`.
 
-![[runner-net-user-agent.png]]
+![user-agent](./runner-net-user-agent.png)
 
 Using [Burpsuite](https://portswigger.net/burp), we can set that as our User Agent. Then we are able to go to the `/__/__tomsbackdoor` page.
 
-![[runner-net-burp-replace-user-agent.png]]
+![burp-replace-user-agent](./runner-net-burp-replace-user-agent.png)
 
-![[runner-net-tomsbackdoor.png]]
+![tomsbackdoor](./runner-net-tomsbackdoor.png)
 
 Since we will be making quite a few requests, lets set up an automatic User Agent match and replace.
 
 Navigate to Proxy -> Proxy Settings -> Match and Replace
 
-![[runner-net-burp-match-and-replace.png]]
+![burp-match-and-replace](./runner-net-burp-match-and-replace.png)
 
 Add a new rule
 
-![[runner-net-burp-new-match-and-replace.png]]
+![burp-new-match-and-replace](./runner-net-burp-new-match-and-replace.png)
 
 Make sure it is enabled.
 
-![[runner-net-burp-enable-match-and-replace.png]]
+![burp-enable-match-and-replace](./runner-net-burp-enable-match-and-replace.png)
 
 Clicking any link on the forum, we see that an `accessCode` cookie has been set and our User Agent re-write is working.
 
 (The `accessCode` cookie came from visiting `/__/__tomsbackdoor` with the correct User Agent.)
 
-![[runner-net-burp-match-and-replace-working.png]]
+![burp-match-and-replace-working](./runner-net-burp-match-and-replace-working.png)
 
 The match and replace makes browsing the site much easier. (There are browser extensions that let you do this, but they are all sketchy.)
 
@@ -64,11 +64,12 @@ At this point we can turn burp interception off and just look around.
 
 From the challenge description, we see the user `m_and_m` (probably Mary and Maya). 
 
-![[runner-net-secret-forum.png]]
+![secret-forum](./runner-net-secret-forum.png)
 
 Clicking on their profile and viewing it's source, we see
 
-![[runner-net-m-and-m-profile.png]]
+![m-and-m-profile](./runner-net-m-and-m-profile.png)
+
 ```
 jctf{oh_no!_th3y_4r3_0n_t0_0ur_h3ad3r5!}
 ```

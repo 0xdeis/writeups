@@ -13,11 +13,11 @@ author: ott
 
 Looking through the pcap file, we see some interesting traffic highlighted in grey
 
-![[netrunner-detected-traffic.png]]
+![traffic](./netrunner-detected-traffic.png)
 
 Looking at a single packet, we see the `FIN`, `PSH`, and `URG` bits set
 
-![[netrunner-detected-single-packet.png]]
+![single-packet](./netrunner-detected-single-packet.png)
 
 This looks like an [Xmas attack](https://nmap.org/book/scan-methods-null-fin-xmas-scan.html)
 
@@ -40,15 +40,15 @@ This looks like an [Xmas attack](https://nmap.org/book/scan-methods-null-fin-xma
 
 Filtering the packets with `tcp && ip.addr == 10.0.2.7 && ip.addr == 10.0.2.15` we see
 
-![[netrunner-detected-filtered.png]]
+![filtered](./netrunner-detected-filtered.png)
 
 The port range is between 1025 and 1035
 
-![[netrunner-detected-ports.png]]
+![ports](./netrunner-detected-ports.png)
 
 Setting the initial packet as a timing reference, the attack seems to have a delay of 2 seconds between each packet.
 
-![[netrunner-detected-timing.png]]
+![timing](./netrunner-detected-timing.png)
 
 ```
 nmap --help | grep Xmas  
@@ -63,7 +63,7 @@ nmap -p1025-1035 --scan-delay 2s -sX 10.0.2.15
 
 Translating it into the flag format, we get
 
-> Flag Format: order the arguments in alphabetical order, left to right, case sensitive, seperate by underscores. Example: `jctf{nmap_--arg1_--arg2_var_ip}`
+> Flag Format: order the arguments in alphabetical order, left to right, case sensitive, separate by underscores. Example: `jctf{nmap_--arg1_--arg2_var_ip}`
 
 ```
 jctf{nmap_-p1025-1035_--scan-delay_2s_-sX_10.0.2.15}
